@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plasterManifest
+  schemaVersion="1.1"
+  templateType="Project" xmlns="http://www.microsoft.com/schemas/PowerShell/Plaster/v1">
+  <metadata>
+    <name>Korthcore-PSModule</name>
+    <id>36bd1b25-71a7-41dc-b96d-70bd621291db</id>
+    <version>0.0.1</version>
+    <title>New PowerShell Manifest Module</title>
+    <description>Create Files and Folder Structure for a PowerShell Module.</description>
+    <author>Chris Edwards</author>
+    <tags>Module, ScriptModule, ModuleManifest</tags>
+  </metadata>
+  <parameters>
+    <!-- Module -->
+    <parameter name="ModuleName"
+               type="text"
+               prompt="Enter the name of your Module" />
+
+    <parameter name="ModuleDesc"
+               type="text"
+               prompt="Brief description on this Module" />
+
+    <parameter name="ModuleVersion"
+               type="text"
+               prompt="Version Number"
+               default="0.0.1" />
+
+    <parameter name="CompanyName"
+               type="text"
+               prompt="Company Name" />
+
+    <parameter name="CompanyShorthand"
+               type="text"
+               prompt="Company Shorthand" />
+
+    <parameter name="Author"
+               type="user-fullname" 
+               prompt="Author" />
+
+    <parameter name="Email"
+               type="user-email" 
+               prompt="Email" />
+
+    <!-- Environment -->
+    <parameter name="PowerShellVersion"
+               type="choice" store="text" 
+               prompt="Minimum PowerShell Version" 
+               default="2">
+      <choice label="&amp;4.0"
+              help="Minimum PowerShell version required is 4.0 (Legacy)" 
+              value="4.0" />
+      <choice label="&amp;5.1" 
+              help="Minimum PowerShell version required is 5.1" 
+              value="5.1" />
+      <choice label="&amp;7.0" 
+              help="Minimum PowerShell version required is 7.0 (PowerShell Core)" 
+              value="7.0" />
+    </parameter>
+
+    <!-- PowerShell classes -->
+    <parameter name='Classes'
+               type='choice'
+               default='1'
+               store='text'
+               prompt='Will you be using PowerShell classes?'>
+      <choice label='&amp;Yes'
+              help='Yes, classes will be used in the module'
+              value='Yes'/>
+      <choice label='&amp;No'
+              help="No, classes will not be used in the module"
+              value='No'/>
+    </parameter>
+
+    <!-- Editor -->
+    <parameter name="Editor"
+               type="choice" 
+               store="text" 
+               prompt="Select an Editor for Integration" default="1">
+      <choice label="&amp;None" 
+              help="No editor specified." 
+              value="None" />
+      <choice label="Visual Studio &amp;Code" 
+              help="Your editor is Visual Studio Code." 
+              value=".vscode" />
+    </parameter>
+
+    <!-- PlatyPS -->
+    <parameter name='PlatyPS'
+               type='choice'
+               default='0'
+               store='text'
+               prompt='Do you want to use PlatyPS for help documentation?'>
+      <choice label='&amp;Yes'
+              help='Yes, use PlatyPS to generate markdown help'
+              value='Yes'/>
+      <choice label='&amp;No'
+              help="No, do not include PlatyPS support"
+              value='No'/>
+    </parameter>
+
+    <!-- Project Options -->
+    <parameter name="ProjectOptions"
+               type="multichoice" 
+               store="text" 
+               prompt="Select Additional Project Options. For multiple options separate with commas (,)" 
+               default='0,1,2,3,4,5,6'>
+      <choice label="&amp;Tests" 
+              help="Adds a tests directory and some initial Pester Tests in the project root." 
+              value="Tests" />
+      <choice label="&amp;Build" 
+              help="Adds generic build scripts in the a build directory."  
+              value="Build" />
+      <choice label="&amp;PSake Build Script" 
+              help="Adds a PSake build script that generates the module directory for publishing to the PSGallery." 
+              value="PSake" />
+      <choice label="&amp;Pipelines" 
+              help="Adds a azure-pipelines.yml file in the project root." 
+              value="Pipelines" />
+      <choice label="&amp;.gitignore" 
+              help="Adds a .gitignore file in the project root." 
+              value=".gitignore" />
+      <choice label="&amp;README" 
+              help="Adds a README.md file in the project root." 
+              value="README" />
+      <choice label="&amp;CHANGELOG" 
+              help="Adds a CHANGELOG.md file in the project root." 
+              value="CHANGELOG" />
+      <choice label="&amp;None" 
+              help="No options specified." 
+              value="None" />
+    </parameter>
+
+  </parameters>
+  <content>
+    <message>&#10;&#10;Scaffolding your PowerShell Module...&#10;&#10;&#10;</message>  
+    <!-- Module Manifest -->
+    <newModuleManifest destination='${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}.psd1' 
+                       moduleVersion='$PLASTER_PARAM_ModuleVersion' 
+                       rootModule='${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}.psm1' 
+                       author='${PLASTER_PARAM_Author}' 
+                       companyName='${PLASTER_PARAM_CompanyName}'
+                       description='${PLASTER_PARAM_ModuleDesc}' 
+                       powerShellVersion='${PLASTER_PARAM_PowerShellVersion}' 
+                       encoding='UTF8-NoBOM' />
+
+    <!-- Folder Structure with Template Files -->
+    <file
+      source='source/module/Classes/**'
+      destination='${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}\Classes'
+      condition="$PLASTER_PARAM_Classes -eq 'Yes'"/>
+    <file
+      source='source/module/Private/**'
+      destination='${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}\Private'/>
+    <file
+      source='source/module/Public/**'
+      destination='${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}\Public'/>
+
+    <!-- Use PSM1 that supports classes if classes are enabled -->                
+    <templateFile
+      source="source/module/Module_classes.psm1"
+      destination='${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}.psm1'
+      condition="$PLASTER_PARAM_Classes -eq 'Yes'"/>
+    <templateFile
+      source="source/module/Module.psm1"
+      destination='${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}.psm1'
+      condition="$PLASTER_PARAM_Classes -eq 'No'"/>
+
+    <!-- Git -->
+    <message condition="$PLASTER_PARAM_ProjectOptions -contains '.gitignore'">&#10;&#10;Including .gitignore...&#10;&#10;&#10;</message>
+    <file
+      source="source/_gitignore"
+      destination="${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}/.gitignore"
+      condition="$PLASTER_PARAM_ProjectOptions -contains '.gitignore'" />
+    <file
+      source="source/_gitattributes"
+      destination="${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}/.gitattributes" />
+
+    <!-- Project Docs -->
+    <message>&#10;&#10;Including Project Help Documentation...&#10;&#10;&#10;</message>
+    <templateFile condition="$PLASTER_PARAM_PlatyPS -contains 'Yes'"
+                  source='source/docs/en-US/about_Module.help.md'
+                  destination='${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}/docs/en-US/about_${PLASTER_PARAM_ModuleName}.help.md'/>
+    <templateFile condition="$PLASTER_PARAM_PlatyPS -contains 'No'"
+                  source='source/docs/en-US/about_Module.help.txt'
+                  destination='${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}/docs/en-US/about_${PLASTER_PARAM_ModuleName}.help.txt'/>
+
+    <message condition="$PLASTER_PARAM_ProjectOptions -contains 'README'">&#10;&#10;Including Project README...&#10;&#10;&#10;</message>
+    <templateFile
+      source='source/README.md'
+      destination='${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}/README.md'
+      condition="$PLASTER_PARAM_ProjectOptions -contains 'README'" />
+
+    <message condition="$PLASTER_PARAM_ProjectOptions -contains 'CHANGELOG'">&#10;&#10;Including Project CHANGELOG...&#10;&#10;&#10;</message>
+    <templateFile
+      source="source/CHANGELOG.md"
+      destination="${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}/CHANGELOG.md"
+      condition="$PLASTER_PARAM_ProjectOptions -contains 'CHANGELOG'" />
+
+    <!-- Editor -->
+    <file condition="($PLASTER_PARAM_Editor -eq '.vscode')" 
+          source='source/.vscode/**' 
+          destination='${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}\.vscode' />
+
+    <!-- Tests -->
+    <message condition="$PLASTER_PARAM_ProjectOptions -contains 'Tests'">&#10;&#10;Including Tests...&#10;&#10;&#10;</message>
+    <file condition="$PLASTER_PARAM_ProjectOptions -contains 'Tests'" 
+          source='source/tests/**' 
+          destination='${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}\tests' />
+
+    <!-- CI\CD -->
+    <message condition="$PLASTER_PARAM_ProjectOptions -contains 'Pipelines'">&#10;&#10;Including Pipelines...&#10;&#10;&#10;</message>
+    <file condition="$PLASTER_PARAM_ProjectOptions -contains 'Pipelines'"
+          source="source/azure-pipelines.yml"
+          destination="${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}\azure-pipelines.yml" />
+
+    <!-- Build tasks -->
+    <message condition="$PLASTER_PARAM_ProjectOptions -contains 'Build'">&#10;&#10;Including Build...&#10;&#10;&#10;</message>
+    <file condition="$PLASTER_PARAM_ProjectOptions -contains 'Build'"
+          source="source/build/build.ps1"
+          destination="${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}\build\build.ps1" />
+    <file condition="$PLASTER_PARAM_ProjectOptions -contains 'Build'"
+          source="source/build/build.psake.ps1"
+          destination="${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}\build\build.psake.ps1" />
+    <file condition="$PLASTER_PARAM_ProjectOptions -contains 'Build'"
+          source="source/build/deploy.psdeploy.ps1"
+          destination="${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}\build\deploy.psdeploy.ps1" />
+    <file condition="$PLASTER_PARAM_ProjectOptions -contains 'Build'"
+          source="source/build/depend.psd1"
+          destination="${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}\build\${PLASTER_PARAM_ModuleName}.depend.psd1" />
+    
+    <!-- Required modules -->
+    <message>&#10;&#10;Verifying Required Modules...&#10;&#10;&#10;</message>
+    <requireModule name="Pester" 
+                   condition="$PLASTER_PARAM_ProjectOptions -contains 'Tests'" 
+                   minimumVersion="5.4.1" 
+                   message="Without Pester, you will not be able to run the provided Pester Tests test to validate your module manifest file."/>
+    <requireModule name="BuildHelpers" 
+                   condition="$PLASTER_PARAM_ProjectOptions -contains 'Build'" 
+                   minimumVersion="2.0.16" 
+                   message="BuildHelpers is required in a lot of the specific Build scripts."/>
+    <requireModule name="platyPS" 
+                   condition="$PLASTER_PARAM_PlatyPS -eq 'Yes'" 
+                   minimumVersion="0.14.2" 
+                   message="If you are using PlatyPS to generate Help Documentation ensure the PS Module is installed."/>
+    <requireModule name="psake" 
+                   condition="$PLASTER_PARAM_ProjectOptions -contains 'Build'" 
+                   minimumVersion="4.9.0" 
+                   message="psake is required for building the PS Module."/>
+    <requireModule name="PSDeploy" 
+                   condition="$PLASTER_PARAM_ProjectOptions -contains 'Build'" 
+                   minimumVersion="1.0.5" 
+                   message="PSDeploy is used for the build process."/>
+    <requireModule name="PSScriptAnalyzer" 
+                   condition="$PLASTER_PARAM_ProjectOptions -contains 'Tests'" 
+                   minimumVersion="1.21.0" 
+                   message="Tests will require the installation of PSScriptAnalyzer."/>
+    <!-- Summary messages -->
+    <message>&#10;&#10;Your new PowerShell module project '${PLASTER_PARAM_CompanyShorthand}.${PLASTER_PARAM_ModuleName}' has been created.&#10;&#10;</message>
+  </content>
+</plasterManifest>
