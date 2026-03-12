@@ -1,0 +1,323 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<plasterManifest
+  schemaVersion="1.1"
+  templateType="Project" xmlns="http://www.microsoft.com/schemas/PowerShell/Plaster/v1">
+
+  <metadata>
+    <name>KXC.EAMProject</name>
+    <id>a3f2c1d4-7e8b-4a9f-b2c3-d4e5f6a7b8c9</id>
+    <version>0.1.0</version>
+    <title>KXC Enterprise Access Model Project</title>
+    <description>Scaffolds the canonical KXC.EnterpriseAccessModel repository structure including module, pipelines, tests, schemas, data, docs, and runbooks.</description>
+    <author>Korthal</author>
+    <tags>SailPoint, EntraID, EAM, PowerShell, Module, ADO</tags>
+  </metadata>
+
+  <parameters>
+
+    <!-- Author -->
+    <parameter name="Author"
+               type="user-fullname"
+               prompt="Author name" />
+
+    <parameter name="Email"
+               type="user-email"
+               prompt="Author email" />
+
+    <!-- Module -->
+    <parameter name="ModuleVersion"
+               type="text"
+               prompt="Initial module version"
+               default="0.1.0" />
+
+    <!-- Environment -->
+    <parameter name="Environment"
+               type="choice"
+               store="text"
+               prompt="Target environment"
+               default="0">
+      <choice label="&amp;PreProd"
+              help="Scaffold targeting the PreProd environment."
+              value="PreProd" />
+      <choice label="&amp;Prod"
+              help="Scaffold targeting the Production environment."
+              value="Prod" />
+    </parameter>
+
+    <!-- Change Reference -->
+    <parameter name="ChangeReference"
+               type="text"
+               prompt="Change reference number (e.g. CHG0012345)"
+               default="CHG0000000" />
+
+  </parameters>
+
+  <content>
+
+    <message>&#10;&#10;Scaffolding KXC.EnterpriseAccessModel project...&#10;&#10;</message>
+
+    <!-- ============================================================ -->
+    <!-- ROOT FILES                                                    -->
+    <!-- ============================================================ -->
+    <message>&#10;Including root files...&#10;</message>
+
+    <file
+      source="source/_gitignore"
+      destination=".gitignore" />
+
+    <file
+      source="source/_gitattributes"
+      destination=".gitattributes" />
+
+    <templateFile
+      source="source/README.md"
+      destination="README.md" />
+
+    <templateFile
+      source="source/CHANGELOG.md"
+      destination="CHANGELOG.md" />
+
+    <templateFile
+      source="source/config.psd1"
+      destination="config.psd1" />
+
+    <templateFile
+      source="source/main.ps1"
+      destination="main.ps1" />
+
+    <!-- ============================================================ -->
+    <!-- .VSCODE                                                       -->
+    <!-- ============================================================ -->
+    <message>&#10;Including .vscode configuration...&#10;</message>
+
+    <file
+      source="source/.vscode/settings.json"
+      destination=".vscode/settings.json" />
+
+    <file
+      source="source/.vscode/.versionrc.json"
+      destination=".vscode/.versionrc.json" />
+
+    <!-- ============================================================ -->
+    <!-- AZURE PIPELINES                                               -->
+    <!-- ============================================================ -->
+    <message>&#10;Including Azure Pipelines...&#10;</message>
+
+    <file
+      source="source/azure-pipelines/README.md"
+      destination="azure-pipelines/README.md" />
+
+    <templateFile
+      source="source/azure-pipelines/dev.yaml"
+      destination="azure-pipelines/dev.yaml" />
+
+    <templateFile
+      source="source/azure-pipelines/production.yaml"
+      destination="azure-pipelines/production.yaml" />
+
+    <file
+      source="source/azure-pipelines/jobs/asset-pipeline.yaml"
+      destination="azure-pipelines/jobs/asset-pipeline.yaml" />
+
+    <file
+      source="source/azure-pipelines/jobs/tests.yaml"
+      destination="azure-pipelines/jobs/tests.yaml" />
+
+    <file
+      source="source/azure-pipelines/jobs/version.yaml"
+      destination="azure-pipelines/jobs/version.yaml" />
+
+    <file
+      source="source/azure-pipelines/steps/debug-vars.yaml"
+      destination="azure-pipelines/steps/debug-vars.yaml" />
+
+    <file
+      source="source/azure-pipelines/vars/global.yaml"
+      destination="azure-pipelines/vars/global.yaml" />
+
+    <templateFile
+      source="source/azure-pipelines/vars/dev.yaml"
+      destination="azure-pipelines/vars/dev.yaml" />
+
+    <templateFile
+      source="source/azure-pipelines/vars/prod.yaml"
+      destination="azure-pipelines/vars/prod.yaml" />
+
+    <!-- ============================================================ -->
+    <!-- DATA                                                          -->
+    <!-- ============================================================ -->
+    <message>&#10;Including data folder...&#10;</message>
+
+    <file
+      source="source/data/README.md"
+      destination="data/README.md" />
+
+    <file
+      source="source/data/templates/.gitkeep"
+      destination="data/templates/.gitkeep" />
+
+    <!-- ============================================================ -->
+    <!-- DOCS                                                          -->
+    <!-- ============================================================ -->
+    <message>&#10;Including project docs...&#10;</message>
+
+    <file
+      source="source/docs/README.md"
+      destination="docs/README.md" />
+
+    <file
+      source="source/docs/PROJECT_STRUCTURE.md"
+      destination="docs/PROJECT_STRUCTURE.md" />
+
+    <file
+      source="source/docs/architecture.md"
+      destination="docs/architecture.md" />
+
+    <file
+      source="source/docs/conventions.md"
+      destination="docs/conventions.md" />
+
+    <file
+      source="source/docs/runbook.md"
+      destination="docs/runbook.md" />
+
+    <!-- ============================================================ -->
+    <!-- MODULE — KXC.EnterpriseAccessModel                           -->
+    <!-- ============================================================ -->
+    <message>&#10;Scaffolding KXC.EnterpriseAccessModel module...&#10;</message>
+
+    <!-- Module root -->
+    <newModuleManifest
+      destination="KXC.EnterpriseAccessModel/KXC.EnterpriseAccessModel.psd1"
+      moduleVersion="$PLASTER_PARAM_ModuleVersion"
+      rootModule="KXC.EnterpriseAccessModel.psm1"
+      author="$PLASTER_PARAM_Author"
+      companyName="Korthcore"
+      description="SailPoint ISC automation for the Enterprise Access Model"
+      powerShellVersion="7.0"
+      encoding="UTF8-NoBOM" />
+
+    <templateFile
+      source="source/module/KXC.EnterpriseAccessModel.psm1"
+      destination="KXC.EnterpriseAccessModel/KXC.EnterpriseAccessModel.psm1" />
+
+    <!-- Public — sources -->
+    <file
+      source="source/module/public/sources/.gitkeep"
+      destination="KXC.EnterpriseAccessModel/public/sources/.gitkeep" />
+
+    <!-- Public — transforms -->
+    <file
+      source="source/module/public/transforms/.gitkeep"
+      destination="KXC.EnterpriseAccessModel/public/transforms/.gitkeep" />
+
+    <!-- Public — accessPackages -->
+    <file
+      source="source/module/public/accessPackages/.gitkeep"
+      destination="KXC.EnterpriseAccessModel/public/accessPackages/.gitkeep" />
+
+    <!-- Public — governanceGroups -->
+    <file
+      source="source/module/public/governanceGroups/.gitkeep"
+      destination="KXC.EnterpriseAccessModel/public/governanceGroups/.gitkeep" />
+
+    <!-- Public — segments -->
+    <file
+      source="source/module/public/segments/.gitkeep"
+      destination="KXC.EnterpriseAccessModel/public/segments/.gitkeep" />
+
+    <!-- Private -->
+    <file
+      source="source/module/private/.gitkeep"
+      destination="KXC.EnterpriseAccessModel/private/.gitkeep" />
+
+    <!-- Schemas -->
+    <file
+      source="source/module/schemas/c1/.gitkeep"
+      destination="KXC.EnterpriseAccessModel/schemas/c1/.gitkeep" />
+
+    <file
+      source="source/module/schemas/c2/.gitkeep"
+      destination="KXC.EnterpriseAccessModel/schemas/c2/.gitkeep" />
+
+    <!-- Tests — common -->
+    <file
+      source="source/module/tests/common/PSScriptAnalyzerSettings.psd1"
+      destination="KXC.EnterpriseAccessModel/tests/common/PSScriptAnalyzerSettings.psd1" />
+
+    <!-- Tests — sources -->
+    <file
+      source="source/module/tests/sources/.gitkeep"
+      destination="KXC.EnterpriseAccessModel/tests/sources/.gitkeep" />
+
+    <!-- Tests — transforms -->
+    <file
+      source="source/module/tests/transforms/.gitkeep"
+      destination="KXC.EnterpriseAccessModel/tests/transforms/.gitkeep" />
+
+    <!-- Docs (platyPS output — empty on scaffold) -->
+    <file
+      source="source/module/docs/.gitkeep"
+      destination="KXC.EnterpriseAccessModel/docs/.gitkeep" />
+
+    <!-- ============================================================ -->
+    <!-- RUNBOOKS                                                      -->
+    <!-- ============================================================ -->
+    <message>&#10;Including runbooks folder...&#10;</message>
+
+    <file
+      source="source/runbooks/.gitkeep"
+      destination="runbooks/.gitkeep" />
+
+    <!-- ============================================================ -->
+    <!-- SCRIPTS                                                       -->
+    <!-- ============================================================ -->
+    <message>&#10;Including scripts folder...&#10;</message>
+
+    <file
+      source="source/scripts/README.md"
+      destination="scripts/README.md" />
+
+    <!-- ============================================================ -->
+    <!-- REQUIRED MODULES                                              -->
+    <!-- ============================================================ -->
+    <message>&#10;&#10;Verifying required modules...&#10;&#10;</message>
+
+    <requireModule
+      name="Pester"
+      minimumVersion="5.4.1"
+      message="Pester 5.4.1 or higher is required for the test suite. Install with: Install-Module Pester -SkipPublisherCheck" />
+
+    <requireModule
+      name="platyPS"
+      minimumVersion="0.14.2"
+      message="platyPS is required for markdown doc generation. Install with: Install-Module platyPS" />
+
+    <requireModule
+      name="PSScriptAnalyzer"
+      minimumVersion="1.21.0"
+      message="PSScriptAnalyzer is required for code quality checks. Install with: Install-Module PSScriptAnalyzer" />
+
+    <requireModule
+      name="PSSailPoint"
+      minimumVersion="1.0.0"
+      message="PSSailPoint is required for SailPoint V3 API operations. Install with: Install-Module PSSailPoint" />
+
+    <requireModule
+      name="PSSailPointBeta"
+      minimumVersion="1.0.0"
+      message="PSSailPointBeta is required for Beta API operations (correlation, aggregation). Install with: Install-Module PSSailPointBeta" />
+
+    <requireModule
+      name="Az.KeyVault"
+      minimumVersion="5.0.0"
+      message="Az.KeyVault is required for secret resolution in Prod. Install with: Install-Module Az.KeyVault" />
+
+    <!-- ============================================================ -->
+    <!-- SUMMARY                                                       -->
+    <!-- ============================================================ -->
+    <message>&#10;&#10;KXC.EnterpriseAccessModel project scaffolded successfully.&#10;&#10;Next steps:&#10;  1. Review and update config.psd1 with your environment details&#10;  2. Commit the scaffold with: git init &amp;&amp; git add . &amp;&amp; git commit -m &quot;chore(structure): initial project scaffold&quot;&#10;  3. Begin function development under KXC.EnterpriseAccessModel/public/&#10;&#10;</message>
+
+  </content>
+
+</plasterManifest>
