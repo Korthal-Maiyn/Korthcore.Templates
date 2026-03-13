@@ -4,7 +4,7 @@
   templateType="Project" xmlns="http://www.microsoft.com/schemas/PowerShell/Plaster/v1">
 
   <metadata>
-    <name>KXC.EAMProject</name>
+    <name>KXC-EAMProject</name>
     <id>a3f2c1d4-7e8b-4a9f-b2c3-d4e5f6a7b8c9</id>
     <version>0.1.0</version>
     <title>KXC Enterprise Access Model Project</title>
@@ -152,10 +152,6 @@
       source="source/data/README.md"
       destination="data/README.md" />
 
-    <file
-      source="source/data/templates/.gitkeep"
-      destination="data/templates/.gitkeep" />
-
     <!-- ============================================================ -->
     <!-- DOCS                                                          -->
     <!-- ============================================================ -->
@@ -194,8 +190,7 @@
       author="$PLASTER_PARAM_Author"
       companyName="Korthcore"
       description="SailPoint ISC automation for the Enterprise Access Model"
-      powerShellVersion="7.0"
-      encoding="UTF8-NoBOM" />
+      powerShellVersion="7.0" />
 
     <templateFile
       source="source/module/KXC.EnterpriseAccessModel.psm1"
@@ -320,7 +315,7 @@
     <!-- ============================================================ -->
     <!-- SUMMARY                                                       -->
     <!-- ============================================================ -->
-    <message>&#10;&#10;KXC.EnterpriseAccessModel project scaffolded successfully.&#10;&#10;Next steps:&#10;  1. Review and update config.psd1 with your environment details&#10;  2. Commit the scaffold with: git init &amp;&amp; git add . &amp;&amp; git commit -m &quot;chore(structure): initial project scaffold&quot;&#10;  3. Begin function development under KXC.EnterpriseAccessModel/public/&#10;&#10;</message>
+    <message>&#10;&#10;KXC.EnterpriseAccessModel project scaffolded successfully.&#10;&#10;Next steps:&#10;  1. Review and update config.psd1 with your environment details&#10;  2. Commit the scaffold with: git init &amp;&amp; git add . &amp;&amp; git commit -m 'chore(structure): initial project scaffold'&#10;  3. Begin function development under KXC.EnterpriseAccessModel/public/&#10;&#10;</message>
 
   </content>
 
