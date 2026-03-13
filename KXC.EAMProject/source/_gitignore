@@ -2,6 +2,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,windows,powershell
 
 ### Windows ###
+
 Thumbs.db
 ehthumbs.db
 Desktop.ini
@@ -9,10 +10,12 @@ $RECYCLE.BIN/
 *.lnk
 
 ### PowerShell ###
+
 *.zip
 *.dll
 
 ### VisualStudioCode ###
+
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
@@ -22,9 +25,7 @@ $RECYCLE.BIN/
 .ionide
 
 # Custom rules
+
 /Temp
 /Staging
 /Artifacts
-
-# Task tracker — not for production commits
-!docs/TASKS.md

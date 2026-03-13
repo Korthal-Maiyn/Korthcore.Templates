@@ -269,6 +269,10 @@
       source="source/runbooks/.gitkeep"
       destination="runbooks/.gitkeep" />
 
+    <file
+      source="source/runbooks/README.md"
+      destination="runbooks/README.md" />
+
     <!-- ============================================================ -->
     <!-- SCRIPTS                                                       -->
     <!-- ============================================================ -->
