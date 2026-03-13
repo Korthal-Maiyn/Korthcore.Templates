@@ -1,0 +1,3 @@
+﻿variables:
+  Environment:      'Prod'
+  ArtifactFeedName: 'KXC-Prod'

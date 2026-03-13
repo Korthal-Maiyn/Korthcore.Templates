@@ -1,0 +1,14 @@
+﻿steps:
+  - bash: |
+      echo ''
+      echo '===== Pipeline Conditions ====='
+      echo 'isMain:       $(isMain)'
+      echo 'isFeature:    $(isFeature)'
+      echo 'isFork:       $(isFork)'
+      echo 'isPR:         $(isPR)'
+      echo 'isScheduled:  $(isScheduled)'
+      echo 'isTrustedCI:  $(isTrustedCI)'
+      echo 'deployMain:   $(deployMain)'
+      echo 'Environment:  $(Environment)'
+      echo ''
+    displayName: 'Debug - Pipeline Variables'

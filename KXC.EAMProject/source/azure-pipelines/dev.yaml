@@ -1,0 +1,33 @@
+﻿name: $(BuildID)
+
+trigger:
+  branches:
+    include:
+      - feature/*
+  paths:
+    exclude:
+      - README.md
+      - docs/**
+
+pr:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  - template: vars/global.yaml
+  - template: vars/dev.yaml
+
+stages:
+
+  # -----------------------------------------------------------------------
+  # Tests — always runs on feature/* and PRs
+  # -----------------------------------------------------------------------
+  - stage: Tests
+    displayName: 'Test (Pester + PSScriptAnalyzer)'
+    condition: eq(variables.isTrustedCI, 'True')
+    jobs:
+      - template: jobs/tests.yaml

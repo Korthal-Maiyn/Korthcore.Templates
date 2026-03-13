@@ -1,0 +1,86 @@
+﻿{
+    //
+    // KXC.EnterpriseAccessModel — VS Code Project Settings
+    //
+    // Ensures consistent editor experience across all contributors.
+
+    // Render all whitespace characters
+    "editor.renderWhitespace": "all",
+
+    // Render control characters
+    "editor.renderControlCharacters": true,
+
+    // 4 spaces, no tabs
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+
+    // Trim trailing whitespace on save
+    "files.trimTrailingWhitespace": true,
+
+    // UTF-8 encoding
+    "files.encoding": "utf8",
+
+    // PSScriptAnalyzer settings path
+    "powershell.scriptAnalysis.settingsPath": "KXC.EnterpriseAccessModel/tests/common/PSScriptAnalyzerSettings.psd1",
+
+    // Code formatting
+    "powershell.codeFormatting.ignoreOneLineBlock": false,
+    "powershell.codeFormatting.newLineAfterCloseBrace": true,
+    "powershell.codeFormatting.newLineAfterOpenBrace": true,
+    "powershell.codeFormatting.openBraceOnSameLine": true,
+    "powershell.codeFormatting.whitespaceAfterSeparator": true,
+    "powershell.codeFormatting.whitespaceAroundOperator": true,
+    "powershell.codeFormatting.whitespaceBeforeOpenBrace": true,
+    "powershell.codeFormatting.whitespaceBeforeOpenParen": true,
+    "powershell.codeFormatting.alignPropertyValuePairs": true,
+
+    // Help completion as block comment
+    "powershell.helpCompletion": "BlockComment",
+
+    // Pester
+    "powershell.pester.outputVerbosity": "FromPreference",
+    "powershell.pester.debugOutputVerbosity": "Detailed",
+    "powershell.pester.useLegacyCodeLens": false,
+    "pester.suppressCodeLensNotice": true,
+    "pesterExplorer.autoDiscoverOnOpen": true,
+
+    // Test Explorer
+    "testExplorer.gutterDecoration": true,
+    "testExplorer.useNativeTesting": true,
+    "testing.gutterEnabled": true,
+    "testing.followRunningTest": true,
+    "testing.defaultGutterClickAction": "debug",
+
+    // Error Lens
+    "errorLens.enabled": true,
+    "errorLens.gutterIconsEnabled": true,
+
+    // Conventional Commits scopes
+    "conventionalCommits.scopes": [
+        "config",
+        "pipelines",
+        "module",
+        "function",
+        "pester",
+        "docs",
+        "schemas",
+        "data",
+        "runbooks",
+        "structure",
+        "repository",
+        "script",
+        "project",
+        "documentation"
+    ],
+
+    // Markdown quick suggestions
+    "[markdown]": {
+        "editor.quickSuggestions": {
+            "other": true,
+            "comments": false,
+            "strings": true
+        }
+    },
+
+    "terminal.explorerKind": "integrated"
+}

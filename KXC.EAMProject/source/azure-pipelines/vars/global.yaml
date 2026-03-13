@@ -1,0 +1,16 @@
+﻿variables:
+
+  # Branch conditions
+  isMain:       ${{ eq(variables['Build.SourceBranch'], 'refs/heads/main') }}
+  isFeature:    ${{ startsWith(variables['Build.SourceBranch'], 'refs/heads/feature/') }}
+
+  # PR / Fork / Schedule guards
+  isFork:       ${{ eq(variables['System.PullRequest.IsFork'], 'True') }}
+  isPR:         ${{ eq(variables['Build.Reason'], 'PullRequest') }}
+  isScheduled:  ${{ eq(variables['Build.Reason'], 'Schedule') }}
+
+  # Trusted CI — human-initiated merge only, no forks/PRs/schedules
+  isTrustedCI:  ${{ and( eq(variables.isFork,'False'), eq(variables.isPR,'False'), eq(variables.isScheduled,'False') ) }}
+
+  # Deployment condition — main branch, trusted CI only
+  deployMain:   ${{ and( eq(variables.isMain,'True'), eq(variables.isTrustedCI,'True') ) }}

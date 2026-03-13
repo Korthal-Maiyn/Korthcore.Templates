@@ -1,0 +1,40 @@
+﻿jobs:
+  - job: PublishModule
+    displayName: 'Publish KXC.EnterpriseAccessModel to Azure Artifacts'
+    steps:
+
+      - task: PowerShell@2
+        displayName: 'Install required modules'
+        inputs:
+          targetType: 'inline'
+          pwsh: true
+          script: |
+            Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+            Install-Module PSSailPoint      -Scope CurrentUser -Force
+            Install-Module PSSailPointBeta  -Scope CurrentUser -Force
+            Install-Module Az.KeyVault      -Scope CurrentUser -Force
+
+      - task: PowerShell@2
+        displayName: 'Register Azure Artifacts feed'
+        inputs:
+          targetType: 'inline'
+          pwsh: true
+          script: |
+            $feedUrl = "$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_packaging/$(ArtifactFeedName)/nuget/v2"
+            Register-PSRepository `
+              -Name $(ArtifactFeedName) `
+              -SourceLocation $feedUrl `
+              -PublishLocation $feedUrl `
+              -InstallationPolicy Trusted
+
+      - task: PowerShell@2
+        displayName: 'Publish module'
+        inputs:
+          targetType: 'inline'
+          pwsh: true
+          script: |
+            Publish-Module `
+              -Path '$(Build.SourcesDirectory)/KXC.EnterpriseAccessModel' `
+              -Repository $(ArtifactFeedName) `
+              -NuGetApiKey 'AzureArtifacts' `
+              -Verbose

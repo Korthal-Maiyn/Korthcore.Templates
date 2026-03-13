@@ -1,0 +1,40 @@
+﻿name: $(BuildID)
+
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    exclude:
+      - README.md
+      - docs/**
+
+pr: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  - template: vars/global.yaml
+  - template: vars/prod.yaml
+
+stages:
+
+  # -----------------------------------------------------------------------
+  # Tests — must pass before publish
+  # -----------------------------------------------------------------------
+  - stage: Tests
+    displayName: 'Test (Pester + PSScriptAnalyzer)'
+    condition: eq(variables.isTrustedCI, 'True')
+    jobs:
+      - template: jobs/tests.yaml
+
+  # -----------------------------------------------------------------------
+  # Publish — module to Azure Artifacts
+  # -----------------------------------------------------------------------
+  - stage: Publish
+    displayName: 'Publish Module (Azure Artifacts)'
+    dependsOn: Tests
+    condition: and(succeeded(), eq(variables.isTrustedCI, 'True'))
+    jobs:
+      - template: jobs/asset-pipeline.yaml

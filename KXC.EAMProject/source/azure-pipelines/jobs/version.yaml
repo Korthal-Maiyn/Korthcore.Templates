@@ -1,0 +1,28 @@
+﻿jobs:
+  - job: Versioning
+    displayName: 'Bump module version'
+    steps:
+
+      - checkout: self
+        persistCredentials: true
+
+      - bash: |
+          git config --global user.email "$(Build.RequestedForEmail)"
+          git config --global user.name  "$(Build.RequestedFor)"
+        displayName: 'Configure git identity'
+
+      - bash: |
+          sudo npm install -g standard-version
+        displayName: 'Install standard-version'
+
+      - bash: |
+          standard-version --release-as minor
+          git push --follow-tags origin HEAD:$(Build.SourceBranchName)
+        condition: and(succeeded(), eq(variables.isMain, 'True'))
+        displayName: 'Bump minor version (main)'
+
+      - bash: |
+          standard-version --release-as patch
+          git push --follow-tags origin HEAD:$(Build.SourceBranchName)
+        condition: and(succeeded(), eq(variables.isFeature, 'True'))
+        displayName: 'Bump patch version (feature/*)'
